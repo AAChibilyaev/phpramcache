@@ -1,6 +1,7 @@
 # phpramcache
 Php cache in Server RAM
-### Установка и настройка phpramcache
+
+### Установка и настройка
 
 Создаем в оперативной памяти RAMDISK и монтируем к папке
 mount -t [TYPE] -o size=[SIZE] [FSTYPE] [MOUNTPOINT]
@@ -30,4 +31,3 @@ $cache = new Phpramcache('/home/bitrix/www/newramdisk');
 $cache->setStorage('testkey', 'testdata');
 //Получение данных из кеша
 echo $cache->getStorage('testkey'); //Выводит testdata
-```

@@ -13,7 +13,8 @@ namespace aachibilyaev\phpramcache;
  *
  * @package aachibilyaev\phpramcache
  */
-class Phpramcache{
+class Phpramcache
+{
 		/**
 		 * @var string
 		 */
@@ -24,7 +25,22 @@ class Phpramcache{
 		 *
 		 * @param string $ramFilesPath
 		 */
-		public function __construct( string $ramFilesPath = '/tmp/') { $this->setRamFilesPath($ramFilesPath); }
+		public function __construct($ramFilesPath = '/tmp/') { $this->setRamFilesPath($ramFilesPath); }
+
+		/**
+		 * @param $key
+		 * @param $val
+		 */
+		public function setStorage($key, $val)
+		{
+				$val = var_export($val, true);
+				$val = str_replace('stdClass::__set_state', '(object)', $val);
+				$tmp = $this->getRamFilesPath() . $key . uniqid('', true) . '.tmp';
+				file_put_contents($tmp, '<?php $val = ' . $val . ';', LOCK_EX);
+				rename($tmp, $this->getRamFilesPath() . $key);
+				unset($val);
+				unset($tmp);
+		}
 
 		/**
 		 * @return string
@@ -37,23 +53,9 @@ class Phpramcache{
 		/**
 		 * @param string $ramFilesPath
 		 */
-		public function setRamFilesPath( string $ramFilesPath)
+		public function setRamFilesPath($ramFilesPath)
 		{
 				$this->ramFilesPath = $ramFilesPath;
-		}
-
-		/**
-		 * @param $key
-		 * @param $val
-		 */
-		public function setCache($key, $val) {
-				$val = var_export($val, true);
-				$val = str_replace('stdClass::__set_state', '(object)', $val);
-				$tmp = $this->getRamFilesPath().$key. uniqid('', true) . '.tmp';
-				file_put_contents($tmp, '<?php $val = ' . $val . ';', LOCK_EX);
-				rename($tmp, $this->getRamFilesPath().$key);
-				unset($val);
-				unset($tmp);
 		}
 
 		/**
@@ -61,8 +63,9 @@ class Phpramcache{
 		 *
 		 * @return false|mixed
 		 */
-		public function getCache($key) {
-				@include "/tmp/$key";
+		public function getStorage($key)
+		{
+				@include $this->getRamFilesPath() . $key;
 				return isset($val) ? $val : false;
 		}
 }
