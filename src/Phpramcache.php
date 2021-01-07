@@ -24,7 +24,7 @@ class Phpramcache{
 		 *
 		 * @param string $ramFilesPath
 		 */
-		public function __construct($ramFilesPath = '/tmp/') { $this->ramFilesPath = $ramFilesPath; }
+		public function __construct( string $ramFilesPath = '/tmp/') { $this->setRamFilesPath($ramFilesPath); }
 
 		/**
 		 * @return string
@@ -37,7 +37,7 @@ class Phpramcache{
 		/**
 		 * @param string $ramFilesPath
 		 */
-		public function setRamFilesPath($ramFilesPath)
+		public function setRamFilesPath( string $ramFilesPath)
 		{
 				$this->ramFilesPath = $ramFilesPath;
 		}
@@ -46,7 +46,7 @@ class Phpramcache{
 		 * @param $key
 		 * @param $val
 		 */
-		public function setStorage($key, $val) {
+		public function setCache($key, $val) {
 				$val = var_export($val, true);
 				$val = str_replace('stdClass::__set_state', '(object)', $val);
 				$tmp = $this->getRamFilesPath().$key. uniqid('', true) . '.tmp';
@@ -61,7 +61,7 @@ class Phpramcache{
 		 *
 		 * @return false|mixed
 		 */
-		public function getStorage($key) {
+		public function getCache($key) {
 				@include "/tmp/$key";
 				return isset($val) ? $val : false;
 		}
