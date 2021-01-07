@@ -1,0 +1,23 @@
+{
+  "name": "aachibilyaev/phpramcache",
+  "description": "Php cache in RAM",
+  "type": "library",
+  "license": "LGPL-2.0",
+  "authors": [
+    {
+      "name": "Chibilyaev Alexandr",
+      "homepage": "https://aachibilyaev.com",
+      "role": "Developer",
+      "email": "aachibilyaev@gmail.com"
+    }
+  ],
+  "support": {
+    "email": "info@aachibilyaev.com"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "aachibilyaev\\phpramcache\\": "src/"
+    }
+  }
+}
